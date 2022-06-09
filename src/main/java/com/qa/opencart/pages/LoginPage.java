@@ -21,7 +21,7 @@ public class LoginPage {
 	private By registerLink = By.linkText("Register");
 	private By logoutSuccessMesg = By.cssSelector("div#common-success h1");
 	
-	private By naveen = By.cssSelector("naveen");
+	private By naveen = By.cssSelector("naveen11");
 
 
 	// 2. page const....
