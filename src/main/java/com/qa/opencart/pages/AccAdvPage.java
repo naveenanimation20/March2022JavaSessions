@@ -1,11 +1,13 @@
 package com.qa.opencart.pages;
 
+import org.openqa.selenium.By;
+
 public class AccAdvPage {
+	
+	By acc = By.id("acc");
 
-	public static void main(String[] args) {
-
-		System.out.println("acc adv page");
-
+	public void clickAcc() {
+		System.out.println("click on : " + acc) ;
 	}
 
 }
