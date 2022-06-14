@@ -6,6 +6,8 @@ public class Feature1Page {
 
 		
 		System.out.println("f1");
+		System.out.println("f2");
+
 		
 	}
 
