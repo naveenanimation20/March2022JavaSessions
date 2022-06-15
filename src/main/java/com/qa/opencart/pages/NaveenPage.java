@@ -12,6 +12,9 @@ public class NaveenPage {
 		int pop = 900;
 		System.out.println(pop);
 
+
+		int total = 200;
+		System.out.println(total);
 		
 
 		
