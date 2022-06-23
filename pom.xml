@@ -91,6 +91,24 @@
 			<version>${aspectj.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.12.46</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-ses</artifactId>
+			<version>1.12.53</version>
+		</dependency>
+
 
 	</dependencies>
 
