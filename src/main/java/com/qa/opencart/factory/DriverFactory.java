@@ -8,6 +8,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import com.qa.opencart.exceptions.FrameworkException;
@@ -16,6 +17,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 
 public class DriverFactory {
@@ -36,20 +39,27 @@ public class DriverFactory {
 	public WebDriver init_driver(Properties prop) {
 
 		String browserName = prop.getProperty("browser").trim();
-		//String browserName = System.getProperty("browser");
+
+		// String browserName = System.getProperty("browser");
 
 		optinonsManager = new OptionsManager(prop);
 
 		System.out.println("browser name is : " + browserName);
 		if (browserName.equalsIgnoreCase("chrome")) {
-			WebDriverManager.chromedriver().setup();
-			// driver = new ChromeDriver(optinonsManager.getChromeOptions());
-			tlDriver.set(new ChromeDriver(optinonsManager.getChromeOptions()));
+
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				// remote execution on docker/cloud:
+				init_remoteDriver("chrome");
+			} else {
+				// local execution:
+				WebDriverManager.chromedriver().setup();
+				tlDriver.set(new ChromeDriver(optinonsManager.getChromeOptions()));
+			}
+
 		}
 
 		else if (browserName.equalsIgnoreCase("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
-			// driver = new FirefoxDriver(optinonsManager.getFirefoxOptions());
 			tlDriver.set(new FirefoxDriver(optinonsManager.getFirefoxOptions()));
 
 		}
@@ -67,6 +77,30 @@ public class DriverFactory {
 		getDriver().get(prop.getProperty("url").trim());
 
 		return getDriver();
+	}
+
+	private void init_remoteDriver(String browserName) {
+
+		System.out.println("Running test cases on remote grid server: " + browserName);
+
+		if (browserName.equalsIgnoreCase("chrome")) {
+			try {
+				tlDriver.set(
+						new RemoteWebDriver(new URL(prop.getProperty("huburl")), optinonsManager.getChromeOptions()));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		else if (browserName.equalsIgnoreCase("firefox")) {
+			try {
+				tlDriver.set(
+						new RemoteWebDriver(new URL(prop.getProperty("huburl")), optinonsManager.getFirefoxOptions()));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	/**
@@ -126,7 +160,7 @@ public class DriverFactory {
 				default:
 					System.out.println("Please pass the right environment...." + envName);
 					throw new FrameworkException("no env is found exception....");
-					//break;
+				// break;
 				}
 
 			} catch (Exception e) {
