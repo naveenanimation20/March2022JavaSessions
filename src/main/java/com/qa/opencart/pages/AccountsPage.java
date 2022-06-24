@@ -19,7 +19,8 @@ public class AccountsPage {
 	private By sectionsHeaders = By.cssSelector("div#content h2");
 	private By search = By.name("search");
 	private By searchIcon = By.cssSelector("div#search button");
-	
+	private By searchIcon1 = By.cssSelector("div#search button");
+
 
 	public AccountsPage(WebDriver driver) {
 		this.driver = driver;
